@@ -38,8 +38,15 @@ fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
     vec![]
 }
 
+fn quick_sort<T: PartialOrd>(nums: &mut [T]) -> &[i32] {
+    let length = nums.len();
+
+    nums.swap(length - 1, length / 2);
+
+    let leftPart = todo!();
+}
+
 fn main() {
-    // let result = max_sub_array(vec![-2, 1, -3, 4, -1, 2, 1, -5, 4]);
-    let result = max_sub_array(vec![5, 4, -1, 7, 8]);
-    println!("{}", result);
+    // let result = quick_sort(vec![1, 2, 3, 4]);
+    // println!("{:?}", result);
 }
