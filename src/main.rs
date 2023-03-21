@@ -43,10 +43,40 @@ fn quick_sort<T: PartialOrd>(nums: &mut [T]) -> &[i32] {
 
     nums.swap(length - 1, length / 2);
 
-    let leftPart = todo!();
+    let left_part = todo!();
+}
+
+fn binary_search(nums: &mut [i32], target: i32) -> Option<usize> {
+    let mut low = 0;
+    let mut high = nums.len();
+    while low < high {
+        let mid = (low + high) / 2;
+        println!("{:?}, {:?}, {:?}", low, mid, high);
+        if nums[mid] == target {
+            return Some(mid);
+        } else if target < nums[mid] {
+            high = mid;
+        } else {
+            low = mid + 1;
+        }
+    }
+    None
+}
+
+fn bubble_sort() {
+    todo!();
+}
+
+fn insertion_sort() {
+    todo!();
+}
+
+fn selection_sort() {
+    todo!();
 }
 
 fn main() {
-    // let result = quick_sort(vec![1, 2, 3, 4]);
-    // println!("{:?}", result);
+    let mut arr = vec![1, 2, 3, 4, 6, 7, 11, 14];
+    let result = binary_search(&mut arr, 1).unwrap();
+    println!("your number index is: {:?}", result);
 }
