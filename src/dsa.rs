@@ -121,6 +121,19 @@ fn insertion_sort() {
     todo!();
 }
 
-fn selection_sort() {
-    todo!();
+fn selection_sort<T: PartialOrd>(nums: &mut [T]) {
+    fn find_smallest<T: PartialOrd>(nums: &mut [T]) {
+        let mut small = &nums[0];
+
+        for el in nums {
+            if el < small {
+                small = el;
+            }
+        }
+    }
+}
+
+#[test]
+fn test_selection_sort() {
+    let arr1 = [1, 7, 4, 3, 9, 2, 0];
 }
