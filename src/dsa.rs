@@ -122,18 +122,35 @@ fn insertion_sort() {
 }
 
 fn selection_sort<T: PartialOrd>(nums: &mut [T]) {
-    fn find_smallest<T: PartialOrd>(nums: &mut [T]) {
+    fn find_smallest<T: PartialOrd>(nums: &[T]) -> usize {
         let mut small = &nums[0];
+        let mut small_index = 0;
 
-        for el in nums {
+        for (index, el) in nums.into_iter().enumerate() {
             if el < small {
                 small = el;
+                small_index = index;
             }
         }
+
+        small_index
+    }
+
+    for i in 0..nums.len() {
+        let small_index = find_smallest(&nums[i..]);
+        nums.swap(i, i + small_index);
     }
 }
 
 #[test]
 fn test_selection_sort() {
-    let arr1 = [1, 7, 4, 3, 9, 2, 0];
+    let mut arr1 = [1, 7, 4, 3, 9, 2, 0];
+    selection_sort(&mut arr1);
+    assert_eq!(arr1, [0, 1, 2, 3, 4, 7, 9]);
+    let mut arr2 = [1];
+    selection_sort(&mut arr2);
+    assert_eq!(arr2, [1]);
+    let mut arr3: [i32; 0] = [];
+    selection_sort(&mut arr3);
+    assert_eq!(arr3, []);
 }
