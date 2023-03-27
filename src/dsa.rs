@@ -185,20 +185,64 @@ fn test_selection_sort() {
 }
 
 fn quick_sort<T: PartialOrd>(nums: &mut [T]) {
-    fn partition<T: PartialOrd>(nums: &mut [T], low: usize, high: usize) -> usize {
-        todo!()
+    fn partition<T: PartialOrd>(nums: &mut [T]) -> usize {
+        let mut index = nums.len() / 2;
+
+        for i in 0..nums.len() {
+            let pivot = &nums[index];
+            if pivot < &nums[i] {
+                nums.swap(index, i);
+                index = i;
+            }
+        }
+        index
     }
 
-    fn _quick_sort<T: PartialOrd>(nums: &mut [T], low: usize, high: usize) {
-        if (low < high) {
-            let pivot_index = partition(nums, low, high);
-            _quick_sort(nums, low, pivot_index);
-            _quick_sort(nums, pivot_index, high);
+    fn _quick_sort<T: PartialOrd>(nums: &mut [T]) {
+        if (nums.len() > 1) {
+            let pivot_index = partition(nums);
+            _quick_sort(&mut nums[0..pivot_index]);
+            _quick_sort(&mut nums[pivot_index..]);
         }
     }
 
-    _quick_sort(nums, 0, nums.len());
+    _quick_sort(nums);
 }
 
 #[test]
-fn test_quick_sort() {}
+fn test_quick_sort() {
+    let mut arr = [1, 7, 4, 3, 9, 2, 0];
+    quick_sort(&mut arr);
+    assert_eq!(arr, [0, 1, 2, 3, 4, 7, 9]);
+    let mut arr = [1];
+    quick_sort(&mut arr);
+    assert_eq!(arr, [1]);
+    let mut arr: [i32; 0] = [];
+    quick_sort(&mut arr);
+    assert_eq!(arr, []);
+}
+
+fn partition<T: PartialOrd + Debug>(nums: &mut [T]) -> usize {
+    let mut index = nums.len() / 2;
+
+    for current_index in 0..nums.len() {
+        let pivot = &nums[index];
+        if pivot < &nums[current_index] {
+            println!("array before swap: {:?}", nums);
+            println!(
+                "pivot: {:?}, current_number: {:?}",
+                pivot, &nums[current_index]
+            );
+            nums.swap(index, current_index);
+            index = current_index;
+            println!("array after swap: {:?}", nums);
+        }
+    }
+    index
+}
+#[test]
+fn test_partition() {
+    let mut arr = [9, 8, 7, 5, 3, 2, 1, 0];
+    partition(&mut arr);
+    println!("{:?}", arr);
+}
