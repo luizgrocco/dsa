@@ -186,16 +186,28 @@ fn test_selection_sort() {
 
 fn quick_sort<T: PartialOrd>(nums: &mut [T]) {
     fn partition<T: PartialOrd>(nums: &mut [T]) -> usize {
-        let mut index = nums.len() / 2;
+        let pivot_index = nums.len() - 1;
+        // I like choosing the middle element of the array as the pivot in case the array is already sorted because this ensures optimal pivot selection.
+        // Swap the middle element of the array with the last element just to make things easier (you always know the pivot will be the last element)
+        nums.swap(pivot_index, nums.len() / 2);
+        // Initialize the index of the elements which are LESS than the pivot, we will call this the "mid-point" of the array
+        let mut numbers_lower_than_pivot = 0;
 
-        for i in 0..nums.len() {
-            let pivot = &nums[index];
-            if pivot < &nums[i] {
-                nums.swap(index, i);
-                index = i;
+        for current_index in 0..(nums.len() - 1) {
+            // Borrow the pivot's value inside the "for loop" to avoid borrowing issues
+            let pivot = &nums[pivot_index];
+
+            // If the current element is smaller than the pivot, then increase the "mid-point" of the array, and place this element at this newly allocated position which is still less than the pivot
+            if &nums[current_index] < pivot {
+                nums.swap(numbers_lower_than_pivot, current_index);
+                numbers_lower_than_pivot += 1;
             }
         }
-        index
+
+        // Finally swap the pivot back to the mid-point where it belongs
+        nums.swap(numbers_lower_than_pivot, pivot_index);
+        // Return the mid-point index
+        numbers_lower_than_pivot
     }
 
     fn _quick_sort<T: PartialOrd>(nums: &mut [T]) {
@@ -211,7 +223,7 @@ fn quick_sort<T: PartialOrd>(nums: &mut [T]) {
 
 #[test]
 fn test_quick_sort() {
-    let mut arr = [1, 7, 4, 3, 9, 2, 0];
+    let mut arr = [1, 7, 4, 9, 0, 2, 3];
     quick_sort(&mut arr);
     assert_eq!(arr, [0, 1, 2, 3, 4, 7, 9]);
     let mut arr = [1];
@@ -222,27 +234,33 @@ fn test_quick_sort() {
     assert_eq!(arr, []);
 }
 
-fn partition<T: PartialOrd + Debug>(nums: &mut [T]) -> usize {
-    let mut index = nums.len() / 2;
-
-    for current_index in 0..nums.len() {
-        let pivot = &nums[index];
-        if pivot < &nums[current_index] {
-            println!("array before swap: {:?}", nums);
-            println!(
-                "pivot: {:?}, current_number: {:?}",
-                pivot, &nums[current_index]
-            );
-            nums.swap(index, current_index);
-            index = current_index;
-            println!("array after swap: {:?}", nums);
-        }
+fn merge_sort<T>(nums: &[T]) -> &[T] {
+    fn merge<T>(first_half: &[T], second_half: &[T]) {
+        todo!();
     }
-    index
+
+    fn _merge_sort<T>(nums: &[T]) -> &[T] {
+        if (nums.len() > 1) {
+            let mid = nums.len().clone() / 2;
+            let arr1 = _merge_sort(&nums[0..mid]);
+            let arr2 = _merge_sort(&nums[mid..]);
+            merge(arr1, arr2);
+            todo!();
+        }
+        &[]
+    }
+    todo!();
 }
+
 #[test]
-fn test_partition() {
-    let mut arr = [9, 8, 7, 5, 3, 2, 1, 0];
-    partition(&mut arr);
-    println!("{:?}", arr);
+fn test_merge_sort() {
+    let mut arr = [1, 7, 4, 9, 0, 2, 3];
+    merge_sort(&mut arr);
+    assert_eq!(arr, [0, 1, 2, 3, 4, 7, 9]);
+    let mut arr = [1];
+    merge_sort(&mut arr);
+    assert_eq!(arr, [1]);
+    let mut arr: [i32; 0] = [];
+    merge_sort(&mut arr);
+    assert_eq!(arr, []);
 }
