@@ -234,33 +234,84 @@ fn test_quick_sort() {
     assert_eq!(arr, []);
 }
 
-fn merge_sort<T>(nums: &[T]) -> &[T] {
-    fn merge<T>(first_half: &[T], second_half: &[T]) {
-        todo!();
+// fn merge_sort<T: PartialOrd>(mut nums: Vec<T>) -> Vec<T> {
+//     fn merge<T: PartialOrd>(mut first_half: Vec<T>, mut second_half: Vec<T>) -> Vec<T> {
+//         let mut result: Vec<T> = vec![];
+
+//         while !first_half.is_empty() && !second_half.is_empty() {
+//             if first_half.first() > second_half.first() {
+//                 let el = first_half.remove(0);
+//                 result.push(el);
+//             } else {
+//                 let el = second_half.remove(0);
+//                 result.push(el);
+//             }
+//         }
+
+//         while !first_half.is_empty() {
+//             result.push(first_half.remove(0));
+//         }
+
+//         while !second_half.is_empty() {
+//             result.push(first_half.remove(0));
+//         }
+
+//         result
+//     }
+
+//     // fn _merge_sort<T>(nums: Vec<T>) -> Vec<T> {
+//     //     if (nums.len() > 1) {
+//     //         let mid = nums.len().clone() / 2;
+//     //         let arr1 = _merge_sort(&nums[0..mid]);
+//     //         let arr2 = _merge_sort(&nums[mid..]);
+//     //         merge(arr1, arr2);
+//     //         todo!();
+//     //     }
+//     // }
+//     todo!();
+// }
+
+// #[test]
+// fn test_merge_sort() {
+//     let mut arr = [1, 7, 4, 9, 0, 2, 3];
+//     merge_sort(&mut arr);
+//     assert_eq!(arr, [0, 1, 2, 3, 4, 7, 9]);
+//     let mut arr = [1];
+//     merge_ssort(&mut arr);
+//     assert_eq!(arr, [1]);
+//     let mut arr: [i32; 0] = [];
+//     merge_sort(&mut arr);
+//     asert_eq!(arr, []);
+// }
+
+fn merge<T: PartialOrd + Debug>(mut first_half: Vec<T>, mut second_half: Vec<T>) -> Vec<T> {
+    let mut result: Vec<T> = vec![];
+
+    while !first_half.is_empty() && !second_half.is_empty() {
+        if first_half.first() < second_half.first() {
+            let el = first_half.remove(0);
+            result.push(el);
+        } else {
+            let el = second_half.remove(0);
+            result.push(el);
+        }
     }
 
-    fn _merge_sort<T>(nums: &[T]) -> &[T] {
-        if (nums.len() > 1) {
-            let mid = nums.len().clone() / 2;
-            let arr1 = _merge_sort(&nums[0..mid]);
-            let arr2 = _merge_sort(&nums[mid..]);
-            merge(arr1, arr2);
-            todo!();
-        }
-        &[]
+    while !first_half.is_empty() {
+        result.push(first_half.remove(0));
     }
-    todo!();
+
+    while !second_half.is_empty() {
+        result.push(second_half.remove(0));
+    }
+
+    result
 }
 
 #[test]
-fn test_merge_sort() {
-    let mut arr = [1, 7, 4, 9, 0, 2, 3];
-    merge_sort(&mut arr);
-    assert_eq!(arr, [0, 1, 2, 3, 4, 7, 9]);
-    let mut arr = [1];
-    merge_sort(&mut arr);
-    assert_eq!(arr, [1]);
-    let mut arr: [i32; 0] = [];
-    merge_sort(&mut arr);
-    assert_eq!(arr, []);
+fn test_merge() {
+    // let mut vec1 = vec![1, 2, 3];
+    assert_eq!(merge(vec![1, 2, 3], vec![2, 5, 6]), vec![1, 2, 2, 3, 5, 6]);
+    assert_eq!(merge(vec![1], vec![]), vec![1]);
+    assert_eq!(merge(vec![], vec![1]), vec![1]);
 }
