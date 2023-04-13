@@ -316,15 +316,21 @@ fn test_merge() {
 }
 
 fn merge2(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
-    let mut first_head = 0;
-    let mut second_head = 0;
+    let mut first_head = m as usize;
+    let mut second_head = n as usize;
 
     for i in 0..(m + n) {
-        if nums1[first_head] < nums2[second_head] {
-            first_head += 1;
-        } else {
-            second_head += 1;
+        if first_head > 0 && second_head > 0 {
+            if nums1[first_head - 1] > nums2[second_head - 1] {
+                first_head += 1;
+            } else {
+                second_head += 1;
+            }
         }
+
+        if n == 0 {}
+
+        if m == 0 {}
     }
 }
 
