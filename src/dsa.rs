@@ -310,8 +310,28 @@ fn merge<T: PartialOrd + Debug>(mut first_half: Vec<T>, mut second_half: Vec<T>)
 
 #[test]
 fn test_merge() {
-    // let mut vec1 = vec![1, 2, 3];
     assert_eq!(merge(vec![1, 2, 3], vec![2, 5, 6]), vec![1, 2, 2, 3, 5, 6]);
     assert_eq!(merge(vec![1], vec![]), vec![1]);
     assert_eq!(merge(vec![], vec![1]), vec![1]);
 }
+
+fn merge2(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
+    let mut first_head = 0;
+    let mut second_head = 0;
+
+    for i in 0..(m + n) {
+        if nums1[first_head] < nums2[second_head] {
+            first_head += 1;
+        } else {
+            second_head += 1;
+        }
+    }
+}
+
+// fn test_merge2() {
+//     let vec1 = vec![];
+
+//     assert_eq!(merge2(vec![1, 2, 3], vec![2, 5, 6]), vec![1, 2, 2, 3, 5, 6]);
+//     assert_eq!(merge2(vec![1], vec![]), vec![1]);
+//     assert_eq!(merge2(vec![], vec![1]), vec![1]);
+// }
